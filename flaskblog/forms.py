@@ -18,11 +18,13 @@ class RegistrationForm(FlaskForm):
 
     submit = SubmitField('Sign Up')
 
+    # checks if the username is already taken 
     def validate_username(self, username):   
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('That username is already taken, choose a different one')
 
+    # checks if the email is already taken 
     def validate_email(self, email):
         email = User.query.filter_by(email=email.data).first()
         if email:
