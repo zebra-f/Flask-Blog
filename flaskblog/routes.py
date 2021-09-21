@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from flaskblog import app, db, bcrypt
-from flaskblog.forms import RegistrationForm, LoginForm
+from flaskblog.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -40,8 +40,9 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     
-    # POST method
     form = RegistrationForm()
+    
+    # POST method
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         
@@ -53,7 +54,7 @@ def register():
         
         flash('Your account has been created, you\'re now able to sign in!', 'success')
         return redirect(url_for('login'))
-
+    
     return render_template('register.html', title='Register', form=form)
 
 
@@ -64,8 +65,9 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
-    # POST method
-    form = LoginForm() 
+    form = LoginForm()
+
+    # POST method 
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         
@@ -89,7 +91,26 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/account')
+@app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    return render_template('account.html', title='Your Account')
+    
+    form = UpdateAccountForm()
+    
+    # POST method
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated', 'success')
+        return redirect(url_for('account'))
+    
+    # GET method
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
+    image_file = url_for('static', 
+                        filename='profile_pictures/' + current_user.image_file)
+    return render_template('account.html', 
+                        title='Your Account', image_file=image_file, form=form)

@@ -1,10 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="content-section">
+        <!-- Register Form -->
         <form action="" method="POST">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class='border-bottom mb-4'>Register</legend>
+                <!-- username -->
                 <div class="form-group">
                     {{ form.username.label(class="form-control-label") }}
 
@@ -19,6 +21,7 @@
                         {{ form.username(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <!-- email -->
                 <div class="form-group">
                     {{ form.email.label(class="form-control-label") }}
                     
@@ -33,6 +36,7 @@
                         {{ form.email(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <!-- password -->
                 <div class="form-group">
                     {{ form.password.label(class="form-control-label") }}
 
@@ -47,6 +51,7 @@
                         {{ form.password(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <!-- confirm password -->
                 <div class="form-group">
                     {{ form.confirm_password.label(class="form-control-label") }}
                     
@@ -62,10 +67,12 @@
                     {% endif %}
                 </div>
             </fieldset>
+            <!-- submit form -->
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
         </form>
+        <!-- Form end -->
     </div>
     <div class="border-top pt3">
         <small class="text-muted">
