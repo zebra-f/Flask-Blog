@@ -1,15 +1,17 @@
 body {
     background: #4cc9f0;
     color: #333333;
-    margin-top: 5rem;
+    margin-top: 5.5rem;
+    margin-bottom: 5.5rem;
   }
   
   h1, h2, h3, h4, h5, h6 {
     color: #444444;
   }
   
+  /* Navbar */
   .bg-steel {
-    background-color: #b5179e;
+    background-color: #f72585;
   }
   
   .site-header .navbar-nav .nav-link {
@@ -24,6 +26,17 @@ body {
     font-weight: 500;
   }
   
+  /* Footer  */
+
+  footer {
+    color: #cbd5db;
+  }
+
+  .bg-footer {
+    background-color: #4361ee;
+  }
+
+  /* Content */
   .content-section {
     background: #ffffff;
     padding: 10px 20px;

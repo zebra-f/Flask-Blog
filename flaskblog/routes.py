@@ -8,26 +8,12 @@ from flaskblog.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-# dummy data
-posts = [
-    {
-        "author": "John Williams",
-        "title": "Blog Post One",
-        "content": "Conentent of the Post One",
-        "date": 2021
-    },
-    {
-        "author": "Joe Hisaishi",
-        "title": "Blog Post Two",
-        "content": "Conentent of the Post Two",
-        "date": 2021 
-    }
-]
-
-
 @app.route('/home')
 @app.route('/')
 def index():
+
+    posts = Post.query.all()
+
     return render_template('index.html', posts=posts)
 
 
@@ -78,7 +64,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             
-            # http://127.0.0.1:5000/login?next=%2Faccount next_page = aacount or None 
+            # http://127.0.0.1:5000/login?next=%2Faccount next_page = account or None 
             next_page = request.args.get('next')
             
             return redirect(next_page) if next_page else redirect(url_for('index'))
@@ -147,9 +133,22 @@ def new_post():
 
     form = PostForm()
     if form.validate_on_submit():
+
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+
         flash('Post has been created', 'success')
         return redirect(url_for('index'))
 
 
-    return render_template('create_post.html', 
-                        title='Your Account', title='New Post', form=form)
+    return render_template('new_post.html', 
+                        title='New Post', form=form)
+
+
+@app.route('/post/<int:post_id>', methods=['GET', 'POST'])
+def post(post_id):
+    
+    post = Post.query.get_or_404(post_id)
+
+    return render_template('post.html', title=post.title, post=post)
