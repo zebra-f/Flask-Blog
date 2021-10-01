@@ -1,5 +1,5 @@
 body {
-    background: #4cc9f0;
+    background: #f4f9e9;
     color: #333333;
     margin-top: 5.5rem;
     margin-bottom: 5.5rem;
@@ -10,16 +10,16 @@ body {
   }
   
   /* Navbar */
-  .bg-steel {
-    background-color: #f72585;
+  .bg-navbar {
+    background-color: #60495a;
   }
   
   .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
+    color: #eef0eb;
   }
   
   .site-header .navbar-nav .nav-link:hover {
-    color: #ffffff;
+    color: #eef0eb;
   }
   
   .site-header .navbar-nav .nav-link.active {
@@ -29,18 +29,18 @@ body {
   /* Footer  */
 
   footer {
-    color: #cbd5db;
+    color: #eef0eb;
   }
 
   .bg-footer {
-    background-color: #4361ee;
+    background-color: #60495a;
   }
 
   /* Content */
   .content-section {
-    background: #ffffff;
+    background: #eef0eb;
     padding: 10px 20px;
-    border: 1px solid #dddddd;
+    border: 2px solid #b4b8ab;
     border-radius: 3px;
     margin-bottom: 20px;
   }

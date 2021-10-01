@@ -11,8 +11,14 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route('/home')
 @app.route('/')
 def index():
+    
+    # arguemnt- 1: defualt page, http://127.0.0.1:5000/?page=1
+    page = request.args.get('page', 1, type=int) 
 
-    posts = Post.query.all()
+    # every posts by every user in a database grouped by page (paginate)
+    posts = Post.query\
+        .order_by(Post.date_posted.desc())\
+        .paginate(page=page, per_page=4)
 
     return render_template('index.html', posts=posts)
 
@@ -132,6 +138,7 @@ def account():
 def new_post():
 
     form = PostForm()
+    
     if form.validate_on_submit():
 
         post = Post(title=form.title.data, content=form.content.data, author=current_user)
@@ -198,3 +205,21 @@ def delete_post(post_id):
 
     flash('Your post has been deleted', 'success')
     return redirect(url_for('index'))
+
+
+@app.route('/user/<string:username>')
+def user_posts(username):
+    
+    # arguemnt- 1: defualt page, http://127.0.0.1:5000/?page=1
+    page = request.args.get('page', 1, type=int)
+
+    # .first_or_404(): 404 error if username doesn't exists 
+    user = User.query.filter_by(username=username).first_or_404()
+    
+    # every posts by single user in a database grouped by page (paginate)
+    posts = Post.query\
+        .filter_by(author=user)\
+        .order_by(Post.date_posted.desc())\
+        .paginate(page=page, per_page=4)
+
+    return render_template('user_posts.html', posts=posts, user=user)
